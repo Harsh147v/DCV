@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Analyze Data</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutus.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome for social icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://kit.fontawesome.com/2d5df1a32f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Background -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="floating-particles">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo-container">
+      <div class="logo-icon">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="AI Data Analytics">
+      </div>
+      <div class="logo-text">Analyze Data</div>
+    </div>
+
+    <nav class="nav-menu">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/clean" class="nav-link">Clean Data</a>
+      <a href="/visualize" class="nav-link">Visualize</a>
+      <a href="/aboutus" class="nav-link active">About Us</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="user-profile">
+        <div class="profile-avatar">
+          <img src="https://cdn3d.iconscout.com/3d/premium/thumb/user-3d-icon-9301885.png" alt="User Avatar">
+        </div>
+        <span class="username">Guest</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="aboutus-page-container">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1 class="gradient-text">About Analyze Data</h1>
+        <p class="hero-description">Transforming raw data into actionable insights through cutting-edge AI technology</p>
+        <div class="hero-visual">
+          <img src="{{ url_for('static', filename='images/aboutuspageAIIMAGE.png') }}" alt="AI Technology">
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section">
+      <div class="glass-card mission-card">
+        <h2 class="gradient-text">Our Mission</h2>
+        <p>At Analyze Data, we believe data should be accessible, understandable, and actionable for everyone. Our mission is to democratize data analytics by providing intuitive tools that transform complex datasets into clear, visual insights.</p>
+        
+        <div class="mission-stats">
+          <div class="stat">
+            <div class="stat-value" data-count="10000">0</div>
+            <div class="stat-label">Files Processed</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" data-count="99">0</div>
+            <div class="stat-label">Accuracy Rate</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" data-count="5000">0</div>
+            <div class="stat-label">Users Served</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+      <h2 class="gradient-text">Our Team</h2>
+      <p class="section-description">Meet the passionate developers behind Analyze Data</p>
+
+      <div class="team-grid">
+
+        <!-- Team Member 1 -->
+        <div class="team-card glass-card">
+          <div class="member-image">
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQEhrHEVeGWL7A/profile-displayphoto-shrink_800_800/B56ZNzB0X3GkAc-/0/1732801678615?e=1758758400&v=beta&t=FLySM1nSUO9-eRr3GYhwk9BJSy-nPHKYR_2tQUWXYUM" alt="Harshvardhan Hatiya">
+            <div class="image-glow"></div>
+          </div>
+          <h3>Harshvardhan Hatiya</h3>
+          <p class="member-role">Lead Developer, Backend & Data Visualization</p>
+          <p class="member-bio">Harshvardhan studies machine learning algorithms and data visualization techniques. He drives the technical vision of our platform.</p>
+          <div class="member-skills">
+            <span class="skill">Python</span>
+            <span class="skill">Machine Learning</span>
+            <span class="skill">Data Visualization</span>
+          </div>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/harshvardhan-hatiya-675128338/" class="social-link" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/Harsh147v" class="social-link" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.instagram.com/mehraharsh147/?hl=en" class="social-link" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-card glass-card">
+          <div class="member-image">
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQGqFwmFLIRYmg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1729919277016?e=1758758400&v=beta&t=JrPt_vDb40e-efbaUjK_v4OBj3XPZK-qK3dh80SelK0" alt="Nikhil Shimpy">
+            <div class="image-glow"></div>
+          </div>
+          <h3>Nikhil Shimpy</h3>
+          <p class="member-role">UI/UX Designer & Frontend Developer</p>
+          <p class="member-bio">Nikhil creates intuitive user experiences and beautiful interfaces, ensuring our platform is both powerful and easy to use.</p>
+          <div class="member-skills">
+            <span class="skill">JavaScript</span>
+            <span class="skill">UI/UX Design</span>
+            <span class="skill">Frontend Development</span>
+          </div>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/nikhilshimpy/" class="social-link" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/NikhilShimpy" class="social-link" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.instagram.com/nikhilshimpyy/?hl=en" class="social-link" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="technology-section">
+      <h2 class="gradient-text">Our Technology</h2>
+      <p class="section-description">Powered by cutting-edge tools and frameworks</p>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-icon">
+            <img src="{{ url_for('static', filename='images/aboutuspageAIIMAGE.png') }}" alt="AI Technology">
+          </div>
+          <h3>AI-Powered Analytics</h3>
+          <p>Advanced machine learning algorithms for intelligent data processing</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">
+            <img src="{{ url_for('static', filename='images/cloud_computing.png') }}" alt="Cloud Computing">
+          </div>
+          <h3>Cloud Infrastructure</h3>
+          <p>Scalable cloud architecture for handling large datasets efficiently</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">
+            <img src="{{ url_for('static', filename='images/security.png') }}" alt="Security">
+          </div>
+          <h3>Enterprise Security</h3>
+          <p>Bank-level encryption and security protocols for your data</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+      <h2 class="gradient-text">Our Values</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+          <h3>Innovation</h3>
+          <p>Continuously pushing the boundaries of data analytics</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-users"></i></div>
+          <h3>Collaboration</h3>
+          <p>Working together to solve complex data challenges</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Integrity</h3>
+          <p>Maintaining the highest standards of data privacy and security</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="glass-card cta-card">
+        <h2 class="gradient-text">Ready to Transform Your Data?</h2>
+        <p>Join thousands of users leveraging our platform to gain valuable insights from their data</p>
+        <div class="cta-buttons">
+          <a href="/dashboard" class="btn btn-primary">Get Started</a>
+          <a href="#contact" class="btn btn-secondary">Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Analyze Data</h3>
+        <p>Transforming raw data into actionable insights with powerful analytics tools.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h4>Product</h4>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Use Cases</a>
+        <a href="#">Integrations</a>
+      </div>
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Tutorials</a>
+        <a href="#">Blog</a>
+        <a href="#">Support</a>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <a href="/aboutus">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#contact">Contact</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Analyze Data. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/aboutus.js') }}"></script>
+</body>
+</html>

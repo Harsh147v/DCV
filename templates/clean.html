@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Data - Analyze Data</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/clean.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/2d5df1a32f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Background -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="floating-particles">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo-container">
+      <div class="logo-icon">
+        <img src="{{ url_for('static', filename='images/clean_data.png') }}" alt="Clean Data">
+      </div>
+      <div class="logo-text">Analyze Data</div>
+    </div>
+
+    <nav class="nav-menu">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/clean" class="nav-link active">Clean Data</a>
+      <a href="/visualize" class="nav-link">Visualize</a>
+      <a href="/aboutus" class="nav-link">About</a>
+      <a href="#features" class="nav-link">Features</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="user-profile">
+        <div class="profile-avatar">
+          <img src="https://cdn3d.iconscout.com/3d/premium/thumb/user-3d-icon-9301885.png" alt="User Avatar">
+        </div>
+        <span class="username">{{ user }}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="clean-page-container">
+    <div class="page-header">
+      <h1 class="gradient-text">Data Cleaning Studio</h1>
+      <p>Upload your CSV file and let our AI-powered tools clean and optimize your data</p>
+    </div>
+
+    <div class="main-content">
+      <!-- Upload Section -->
+      <div class="center-section">
+        <div class="glass-card upload-card">
+          <h2 class="gradient-text">Upload & Clean Data</h2>
+
+          <!-- Upload Form -->
+          <form method="POST" action="/clean" enctype="multipart/form-data" id="uploadForm">
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-content">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drop CSV file here or click to browse</p>
+                <span class="file-types">Supports: .csv files</span>
+              </div>
+            </div>
+            <input type="file" name="file" accept=".csv" required hidden id="fileInput">
+
+            <!-- Cleaning Options -->
+            <div class="cleaning-options">
+              <h3>Cleaning Options:</h3>
+              <div class="options-grid">
+                <label class="option-checkbox">
+                  <input type="checkbox" name="remove_duplicates" checked>
+                  <span class="checkmark"></span>
+                  Remove duplicates
+                </label>
+                <label class="option-checkbox">
+                  <input type="checkbox" name="fix_missing" checked>
+                  <span class="checkmark"></span>
+                  Fix missing values
+                </label>
+                <label class="option-checkbox">
+                  <input type="checkbox" name="standardize" checked>
+                  <span class="checkmark"></span>
+                  Standardize formats
+                </label>
+                <label class="option-checkbox">
+                  <input type="checkbox" name="remove_outliers">
+                  <span class="checkmark"></span>
+                  Remove outliers
+                </label>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-footer">
+              <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                <i class="fas fa-magic"></i> Clean Data
+              </button>
+            </div>
+          </form>
+
+          <!-- Download Section -->
+          <div class="download-section" id="downloadSection" style="display: none;">
+            <div class="success-message">
+              <i class="fas fa-check-circle"></i>
+              <h3>Data Cleaning Complete!</h3>
+              <p>Your file has been successfully processed and optimized</p>
+            </div>
+            <a href="#" class="btn btn-download" id="downloadBtn">
+              <i class="fas fa-download"></i> Download Cleaned File
+            </a>
+            <div class="cleaning-stats">
+              <div class="stat">
+                <span class="stat-value" id="rowsProcessed">0</span>
+                <span class="stat-label">Rows Processed</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value" id="issuesFixed">0</span>
+                <span class="stat-label">Issues Fixed</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value" id="timeSaved">0s</span>
+                <span class="stat-label">Time Saved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <div class="features-section" id="features">
+        <h2 class="gradient-text">Advanced Cleaning Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://cdn3d.iconscout.com/3d/premium/thumb/duplicate-4465858-3696778.png" alt="Remove Duplicates">
+            </div>
+            <h3>Remove Duplicates</h3>
+            <p>Intelligent duplicate detection and removal algorithms</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://cdn3d.iconscout.com/3d/premium/thumb/data-validation-4465856-3696776.png" alt="Fix Missing Values">
+            </div>
+            <h3>Fix Missing Values</h3>
+            <p>AI-powered imputation for missing data points</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="{{ url_for('static', filename='images/standardIcon.png') }}" alt="Standardize Formats">
+            </div>
+            <h3>Standardize Formats</h3>
+            <p>Consistent formatting across dates, numbers, and text</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://cdn3d.iconscout.com/3d/premium/thumb/outlier-4465857-3696777.png" alt="Remove Outliers">
+            </div>
+            <h3>Remove Outliers</h3>
+            <p>Statistical outlier detection and handling</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Analyze Data</h3>
+        <p>Transforming raw data into actionable insights with powerful cleaning and visualization tools.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h4>Product</h4>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Use Cases</a>
+        <a href="#">Integrations</a>
+      </div>
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Tutorials</a>
+        <a href="#">Blog</a>
+        <a href="#">Support</a>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Analyze Data. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/clean.js') }}"></script>
+</body>
+</html>

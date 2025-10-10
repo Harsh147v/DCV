@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <!-- 🌌 Futuristic Background -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="bg-stage">
+    <div class="bg-gradient"></div>
+    <div class="shape sphere"></div>
+    <div class="shape sphere small"></div>
+    <div class="shape cube"></div>
+    <div class="shape cube small"></div>
+  </div>
+
+  <!-- 🔮 Glassmorphic OTP Card -->
+  <div class="glass-card">
+    <h2 class="gradient-text">OTP Verification</h2>
+    <p class="info">An OTP has been sent to your email. Please enter it below:</p>
+
+    <form method="POST" action="/otp">
+      <input type="text" name="otp" placeholder="Enter 6-digit OTP" required maxlength="6">
+      <button type="submit" class="btn">Verify OTP</button>
+    </form>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <p class="link">Didn’t receive the OTP? <a href="/login">Try Login Again</a></p>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

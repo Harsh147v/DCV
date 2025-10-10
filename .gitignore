@@ -1,0 +1,28 @@
+# Byte-compiled / cache
+_pycache_/
+*.py[cod]
+*.pyo
+
+# Virtual env
+venv/
+.env
+env/
+
+# VSCode
+.vscode/
+
+# Python packaging
+dist/
+build/
+
+# Uploads and temp
+uploads/
+upload/
+tempCodeRunnerFile.py
+
+# Firebase service account (DO NOT commit!)
+serviceAccountKey.json
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualize Data - Analyze Data</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/visualize.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/2d5df1a32f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Background -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="floating-particles">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo-container">
+      <div class="logo-icon">
+        <img src="{{ url_for('static', filename='images/visulization.png') }}" alt="AI Data Analytics">
+      </div>
+      <div class="logo-text">Analyze Data</div>
+    </div>
+
+    <nav class="nav-menu">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/clean" class="nav-link">Clean Data</a>
+      <a href="/visualize" class="nav-link active">Visualize</a>
+      <a href="/aboutus" class="nav-link">About</a>
+      <a href="#features" class="nav-link">Features</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="user-profile">
+        <div class="profile-avatar">
+          <img src="https://cdn3d.iconscout.com/3d/premium/thumb/user-3d-icon-9301885.png" alt="User Avatar">
+        </div>
+        <span class="username">{{ user }}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="visualize-page-container">
+    <div class="page-header">
+      <h1 class="gradient-text">Data Visualization Studio</h1>
+      <p>Transform your data into insightful visualizations with our powerful charting tools</p>
+    </div>
+
+    <div class="main-content">
+      <!-- Upload and Visualization Section -->
+      <div class="center-section">
+        <div class="glass-card upload-card">
+          <h2 class="gradient-text">Upload & Visualize Data</h2>
+
+          <form id="uploadForm" enctype="multipart/form-data">
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-content">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drop CSV file here or click to browse</p>
+                <span class="file-types">Supports: .csv files</span>
+              </div>
+            </div>
+            <input type="file" id="file" name="file" accept=".csv" required hidden>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="xColumn">X-Axis Column</label>
+                <select id="xColumn" name="xColumn" class="custom-select"></select>
+              </div>
+
+              <div class="form-group">
+                <label for="yColumn">Y-Axis Column</label>
+                <select id="yColumn" name="yColumn" class="custom-select"></select>
+              </div>
+
+              <div class="form-group">
+                <label for="chartType">Chart Type</label>
+                <select id="chartType" name="chartType" class="custom-select">
+                  <option value="bar">Bar Chart</option>
+                  <option value="line">Line Chart</option>
+                  <option value="scatter">Scatter Plot</option>
+                  <option value="pie">Pie Chart</option>
+                  <option value="doughnut">Doughnut Chart</option>
+                  <option value="polarArea">Polar Area Chart</option>
+                  <option value="radar">Radar Chart</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="colorScheme">Color Scheme</label>
+                <select id="colorScheme" name="colorScheme" class="custom-select">
+                  <option value="cyberpunk">Cyberpunk</option>
+                  <option value="sunset">Sunset</option>
+                  <option value="ocean">Ocean</option>
+                  <option value="forest">Forest</option>
+                  <option value="rainbow">Rainbow</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <button type="submit" class="btn btn-primary" id="generateBtn" disabled>
+                <i class="fas fa-chart-bar"></i> Generate Visualization
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Chart Display Section -->
+        <div class="chart-section glass-card">
+          <h3 class="gradient-text">Data Visualization</h3>
+          <div class="chart-container">
+            <canvas id="chart" width="400" height="300"></canvas>
+          </div>
+
+          <div class="chart-actions" id="chartActions" style="display: none;">
+            <button id="downloadBtn" class="btn btn-download">
+              <i class="fas fa-download"></i> Download Chart
+            </button>
+            <button id="exportDataBtn" class="btn btn-secondary">
+              <i class="fas fa-file-export"></i> Export Data
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visualization Features Section -->
+      <div class="features-section">
+        <h2 class="gradient-text">Advanced Visualization Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="{{ url_for('static', filename='images/multiple_charts_type.png') }}" alt="Multiple Chart Types">
+            </div>
+            <h3>Multiple Chart Types</h3>
+            <p>Bar, line, scatter, pie, and more specialized visualization options</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="{{ url_for('static', filename='images/interactive_charts.png') }}" alt="Interactive Charts">
+            </div>
+            <h3>Interactive Charts</h3>
+            <p>Hover effects, zooming, and detailed tooltips for data exploration</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="{{ url_for('static', filename='images/customizable_themes.png') }}" alt="Customizable Themes">
+            </div>
+            <h3>Customizable Themes</h3>
+            <p>Multiple color schemes to match your presentation needs</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="{{ url_for('static', filename='images/export+option.png') }}" alt="Export Options">
+            </div>
+            <h3>Export Options</h3>
+            <p>Download charts as PNG or export data for further analysis</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart Examples Section -->
+      <div class="examples-section">
+        <h2 class="gradient-text">Visualization Examples</h2>
+        <div class="examples-grid">
+          <div class="example-card">
+            <div class="example-image">
+              <img src="{{ url_for('static', filename='images/bar_charts.png') }}" alt="Bar Chart Example">
+            </div>
+            <h3>Bar Charts</h3>
+            <p>Perfect for comparing categories and showing changes over time</p>
+          </div>
+          <div class="example-card">
+            <div class="example-image">
+              <img src="{{ url_for('static', filename='images/line_charts.png') }}" alt="Line Chart Example">
+            </div>
+            <h3>Line Charts</h3>
+            <p>Ideal for showing trends and progressions over continuous intervals</p>
+          </div>
+          <div class="example-card">
+            <div class="example-image">
+              <img src="{{ url_for('static', filename='images/pie_chart.png') }}" alt="Pie Chart Example">
+            </div>
+            <h3>Pie Charts</h3>
+            <p>Great for showing proportions and percentages of a whole</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Analyze Data</h3>
+        <p>Transforming raw data into actionable insights with powerful visualization tools.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h4>Product</h4>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Use Cases</a>
+        <a href="#">Integrations</a>
+      </div>
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Tutorials</a>
+        <a href="#">Blog</a>
+        <a href="#">Support</a>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Analyze Data. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <script src="{{ url_for('static', filename='js/visualize.js') }}"></script>
+</body>
+</html>

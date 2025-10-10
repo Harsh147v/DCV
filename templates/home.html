@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze Data - AI-Powered Data Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn3d.iconscout.com/3d-premium/1.0.6/css/3d-style.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background particles -->
+    <div id="particles-js"></div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="icon-3d icon-premium" style="--primary-color: #00ffcc; --secondary-color: #0066ff"></i>
+                    <span>Analyze Data</span>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                    <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link nav-btn">Get Started</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Transform Your Data Into <span class="gradient-text">Insights</span></h1>
+                <p class="hero-subtitle">Powerful AI-driven analytics platform for cleaning, visualizing, and understanding your data</p>
+                <a href="{{ url_for('login') }}" class="cta-button">Get Started <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="hero-visual">
+                <img src="{{ url_for('static', filename='images/3D Data Analytics Illustration.png') }}" 
+                     alt="3D Data Analytics Illustration" 
+                     class="hero-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Powerful <span class="gradient-text">Features</span></h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{{ url_for('static', filename='images/clean_data.png') }}" alt="Data Cleaning">
+                    </div>
+                    <h3>Data Cleaning</h3>
+                    <p>Automatically detect and fix inconsistencies, missing values, and outliers in your datasets.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{{ url_for('static', filename='images/visulization.png') }}" alt="Visualization">
+                    </div>
+                    <h3>Visualization</h3>
+                    <p>Create stunning, interactive visualizations that bring your data stories to life.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{{ url_for('static', filename='images/data-analysis-3d.png') }}" alt="AI Analysis">
+                    </div>
+                    <h3>AI Analysis</h3>
+                    <p>Leverage advanced machine learning algorithms to uncover hidden patterns and predictions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{{ url_for('static', filename='images/real_time_processing.png') }}" alt="Real-time Processing">
+                    </div>
+                    <h3>Real-time Processing</h3>
+                    <p>Analyze streaming data in real-time with our powerful processing engine.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="step-icon">
+                        <img src="{{ url_for('static', filename='images/upload_charts.png') }}" alt="Upload Data">
+                    </div>
+                    <h3>Upload Data</h3>
+                    <p>Connect to various data sources or upload your datasets securely to our platform.</p>
+                    <span class="step-number">01</span>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon">
+                        <img src="{{ url_for('static', filename='images/clean_data.png') }}" alt="Clean & Process">
+                    </div>
+                    <h3>Clean & Process</h3>
+                    <p>Our AI automatically cleans and prepares your data for analysis with just a few clicks.</p>
+                    <span class="step-number">02</span>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon">
+                        <img src="{{ url_for('static', filename='images/visulization.png') }}" alt="Visualize">
+                    </div>
+                    <h3>Visualize</h3>
+                    <p>Choose from dozens of visualization types to create compelling data stories.</p>
+                    <span class="step-number">03</span>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon">
+                        <img src="{{ url_for('static', filename='images/share_insights.png') }}" alt="Share Insights">
+                    </div>
+                    <h3>Share Insights</h3>
+                    <p>Export results, share dashboards, or integrate with your business applications.</p>
+                    <span class="step-number">04</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our <span class="gradient-text">Users Say</span></h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"Analyze Data transformed how we handle our business intelligence. The AI insights uncovered revenue opportunities we never would have found manually."</p>
+                        <div class="user">
+                            <div class="avatar">
+                                <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah Johnson">
+                            </div>
+                            <div class="user-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Data Scientist, TechCorp</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p>"The visualization capabilities are outstanding. We've reduced reporting time by 70% and our stakeholders love the interactive dashboards."</p>
+                        <div class="user">
+                            <div class="avatar">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
+                            </div>
+                            <div class="user-info">
+                                <h4>Michael Chen</h4>
+                                <p>BI Analyst, DataFirst</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"The real-time processing has been a game-changer for our operations. We can now respond to market changes as they happen, not days later."</p>
+                        <div class="user">
+                            <div class="avatar">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Jessica Williams">
+                            </div>
+                            <div class="user-info">
+                                <h4>Jessica Williams</h4>
+                                <p>COO, InsightFlow</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="icon-3d icon-premium" style="--primary-color: #00ffcc; --secondary-color: #0066ff"></i>
+                        <span>Analyze Data</span>
+                    </div>
+                    <p>Transforming raw data into actionable insights with cutting-edge AI technology.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@analyzedata.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> San Francisco, CA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Analyze Data. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</body>
+</html>
