@@ -16,9 +16,7 @@ dist/
 build/
 
 # Uploads and temp
-uploads/
-upload/
-tempCodeRunnerFile.py
+
 
 # Firebase service account (DO NOT commit!)
 serviceAccountKey.json
