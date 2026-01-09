@@ -9,37 +9,50 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os, random
+import os
+import random
+import json
 
-# 🔹 Firebase API Key
-FIREBASE_API_KEY = "AIzaSyDanDicvmC2IXvXEUK1Ov8Knz-AFnOV2oI"
+# ----------------- 🔐 ENVIRONMENT VARIABLES -----------------
+FIREBASE_API_KEY = os.environ.get("FIREBASE_API_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
+# ----------------- 🔹 FLASK APP -----------------
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # change this to something strong
+app.secret_key = SECRET_KEY
+app.debug = False
 
-# ----------------- 🔹 FIREBASE SETUP -----------------/
-cred = credentials.Certificate("serviceAccountKey.json")
-firebase_admin.initialize_app(cred, {
-    "storageBucket": "dcv-app-e256d.firebasestorage.app"
-})
+# ----------------- 🔥 FIREBASE SETUP -----------------
+if not firebase_admin._apps:
+    cred = credentials.Certificate(
+        json.loads(os.environ.get("FIREBASE_SERVICE_ACCOUNT"))
+    )
+    firebase_admin.initialize_app(cred, {
+        "storageBucket": "dcv-app-e256d.firebasestorage.app"
+    })
+
 db = firestore.client()
+
+# ----------------- 🔹 CONSTANT (VERCEL SAFE) -----------------
+UPLOAD_DIR = "/tmp"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # ----------------- 🔹 HELPER: VERIFY USER -----------------
 def verify_user(email, password):
     url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_API_KEY}"
-    payload = {"email": email, "password": password, "returnSecureToken": True}
+    payload = {
+        "email": email,
+        "password": password,
+        "returnSecureToken": True
+    }
     response = requests.post(url, json=payload)
     return response.json()
 
 # ----------------- 🔹 ROUTES -----------------
-# @app.route("/")
-# def home():
-#     return redirect(url_for("login"))
 
 @app.route("/")
 def home():
     return render_template("home.html")
-
 
 # ---------- SIGNUP ----------
 @app.route("/signup", methods=["GET", "POST"])
@@ -50,8 +63,15 @@ def signup():
         password = request.form["password"]
 
         try:
-            user = auth.create_user(email=email, password=password, display_name=username)
-            db.collection("users").document(user.uid).set({"username": username, "email": email})
+            user = auth.create_user(
+                email=email,
+                password=password,
+                display_name=username
+            )
+            db.collection("users").document(user.uid).set({
+                "username": username,
+                "email": email
+            })
             return redirect(url_for("login"))
         except Exception as e:
             return f"Error: {e}"
@@ -68,17 +88,15 @@ def login():
         result = verify_user(email, password)
 
         if "idToken" in result:
-            # ✅ Firebase login OK
             user_doc = db.collection("users").where("email", "==", email).get()
             username = user_doc[0].to_dict().get("username") if user_doc else email
 
             session["user"] = username
             session["email"] = email
-
             return redirect(url_for("dashboard"))
-        else:
-            error_message = result.get("error", {}).get("message", "Invalid credentials")
-            return render_template("login.html", error=error_message)
+
+        error_message = result.get("error", {}).get("message", "Invalid credentials")
+        return render_template("login.html", error=error_message)
 
     return render_template("login.html")
 
@@ -96,15 +114,16 @@ def clean_data():
         return redirect(url_for("login"))
 
     if request.method == "POST":
-        file = request.files["file"]
+        file = request.files.get("file")
         if not file:
             return "No file uploaded"
 
         df = pd.read_csv(file)
 
-        # ✅ Cleaning Steps
+        # 🔹 Cleaning Steps
         df.replace([np.inf, -np.inf], np.nan, inplace=True)
         df.drop_duplicates(inplace=True)
+
         str_cols = df.select_dtypes(include=["object"]).columns
         for col in str_cols:
             df[col] = df[col].astype(str).str.strip()
@@ -113,7 +132,10 @@ def clean_data():
             if df[col].dtype in [np.float64, np.int64]:
                 df[col].fillna(df[col].median(), inplace=True)
             else:
-                df[col].fillna(df[col].mode()[0] if not df[col].mode().empty else "Unknown", inplace=True)
+                df[col].fillna(
+                    df[col].mode()[0] if not df[col].mode().empty else "Unknown",
+                    inplace=True
+                )
 
         for col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="ignore")
@@ -127,48 +149,48 @@ def clean_data():
             Q1 = df[col].quantile(0.25)
             Q3 = df[col].quantile(0.75)
             IQR = Q3 - Q1
-            lower_bound = Q1 - 1.5 * IQR
-            upper_bound = Q3 + 1.5 * IQR
-            df[col] = np.where(df[col] < lower_bound, lower_bound,
-                               np.where(df[col] > upper_bound, upper_bound, df[col]))
-
-        upload_dir = os.path.join(os.getcwd(), "upload")
-        os.makedirs(upload_dir, exist_ok=True)
+            lower = Q1 - 1.5 * IQR
+            upper = Q3 + 1.5 * IQR
+            df[col] = np.where(df[col] < lower, lower,
+                               np.where(df[col] > upper, upper, df[col]))
 
         filename = secure_filename(f"cleaned_{file.filename}")
-        filepath = os.path.join(upload_dir, filename)
+        filepath = os.path.join(UPLOAD_DIR, filename)
         df.to_csv(filepath, index=False)
 
-        return f"✅ Data fully cleaned! <a href='{url_for('download_file', filename=filename)}'>Download Cleaned File</a>"
+        return f"""
+        ✅ Data fully cleaned! 
+        <a href='{url_for("download_file", filename=filename)}'>Download Cleaned File</a>
+        """
 
     return render_template("clean.html")
 
 @app.route("/download/<filename>")
 def download_file(filename):
-    upload_dir = os.path.join(os.getcwd(), "upload")
-    return send_from_directory(upload_dir, filename, as_attachment=True)
+    return send_from_directory(UPLOAD_DIR, filename, as_attachment=True)
 
 # ---------- VISUALIZE DATA ----------
 @app.route("/visualize", methods=["GET", "POST"])
 def visualize_data():
-    upload_dir = os.path.join(os.getcwd(), "upload")
-    os.makedirs(upload_dir, exist_ok=True)
-
     if request.method == "POST":
-        # Step 1: New file uploaded
+
         file = request.files.get("file")
         if file:
             filename = secure_filename(file.filename)
-            filepath = os.path.join(upload_dir, filename)
+            filepath = os.path.join(UPLOAD_DIR, filename)
             file.save(filepath)
 
             df = pd.read_csv(filepath)
-            return render_template("visualize.html", columns=df.columns, filename=filename, chart=None)
+            return render_template(
+                "visualize.html",
+                columns=df.columns,
+                filename=filename,
+                chart=None
+            )
 
-        # Step 2: User selected columns + chart type
         if request.form.get("csv_uploaded"):
             filename = request.form["filename"]
-            filepath = os.path.join(upload_dir, filename)
+            filepath = os.path.join(UPLOAD_DIR, filename)
             df = pd.read_csv(filepath)
 
             x_col = request.form.get("x_column")
@@ -183,39 +205,34 @@ def visualize_data():
             elif chart_type == "scatter":
                 sns.scatterplot(data=df, x=x_col, y=y_col)
             elif chart_type == "hist":
-                sns.histplot(data=df[x_col], kde=True)
+                sns.histplot(df[x_col], kde=True)
             elif chart_type == "box":
                 sns.boxplot(data=df, x=x_col, y=y_col)
             elif chart_type == "pie":
-                df[x_col].value_counts().plot.pie(autopct='%1.1f%%')
+                df[x_col].value_counts().plot.pie(autopct="%1.1f%%")
 
             plt.tight_layout()
-            chart_filename = f"chart_{random.randint(1000,9999)}.png"
-            chart_path = os.path.join(upload_dir, chart_filename)
+            chart_name = f"chart_{random.randint(1000,9999)}.png"
+            chart_path = os.path.join(UPLOAD_DIR, chart_name)
             plt.savefig(chart_path)
             plt.close()
 
-            # ✅ Pass chart path back to template
             return render_template(
                 "visualize.html",
                 columns=df.columns,
                 filename=filename,
-                chart=url_for("download_file", filename=chart_filename)
+                chart=url_for("download_file", filename=chart_name)
             )
 
-    # First visit → show upload form
     return render_template("visualize.html", columns=[], filename=None, chart=None)
 
-@app.route('/aboutus')
+# ---------- ABOUT ----------
+@app.route("/aboutus")
 def about_us():
-    return render_template('aboutus.html')
+    return render_template("aboutus.html")
 
 # ---------- LOGOUT ----------
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
-
-# ----------------- 🔹 MAIN -----------------
-if __name__ == "__main__":
-    app.run(debug=True)
