@@ -116,27 +116,28 @@ Data analysts, students, and teams often struggle with:
 
 ## 📁 Project Structure
 
+```
 DCV/
 │
-├── app.py # Main Flask application
+├── app.py                     # Main Flask application
 │
-├── templates/ # HTML templates
-│ ├── home.html
-│ ├── dashboard.html
-│ ├── clean.html
-│ ├── visualize.html
-│ └── aboutus.html
+├── templates/                 # HTML templates
+│   ├── home.html
+│   ├── dashboard.html
+│   ├── clean.html
+│   ├── visualize.html
+│   └── aboutus.html
 │
 ├── static/
-│ ├── css/ # Page-specific styles
-│ ├── js/ # Page-specific scripts
-│ └── images/ # UI & illustration assets
+│   ├── css/                   # Page-specific styles
+│   ├── js/                    # Page-specific scripts
+│   └── images/                # UI & illustration assets
 │
-├── uploads/ # Uploaded CSV files
+├── uploads/                   # Uploaded CSV files
 │
 ├── .gitignore
 └── README.md
-
+```
 
 ---
 
