@@ -1,3 +1,8 @@
-Flask==3.0.0
-pandas==2.2.2
-numpy==1.26.4
+flask
+firebase-admin
+pandas
+numpy
+requests
+matplotlib
+seaborn
+gunicorn
